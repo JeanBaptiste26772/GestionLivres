@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${isEdit} ? 'Modifier un livre' : 'Ajouter un livre'">Formulaire Livre</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        body {
+            background: #f5f7fa;
+        }
+        .navbar {
+            background: var(--primary-gradient);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-top: 30px;
+        }
+        .form-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .btn-gradient {
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/livres">
+            <i class="bi bi-book-fill me-2"></i>
+            <strong>Gestion de Livres</strong>
+        </a>
+        <div class="ms-auto">
+            <a class="btn btn-outline-light btn-sm" href="/livres">
+                <i class="bi bi-arrow-left me-1"></i>
+                Retour à la liste
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="form-card">
+                <!-- En-tête du formulaire -->
+                <div class="form-header">
+                    <h2 class="mb-0">
+                        <i th:class="${isEdit} ? 'bi bi-pencil-square' : 'bi bi-plus-circle'" class="me-2"></i>
+                        <span th:text="${isEdit} ? 'Modifier un livre' : 'Ajouter un livre'"></span>
+                    </h2>
+                </div>
+
+                <!-- Formulaire -->
+                <form th:action="${isEdit} ? @{/livres/modifier/{id}(id=${livreId})} : @{/livres/enregistrer}"
+                      th:object="${livre}"
+                      method="post">
+
+                    <!-- Titre -->
+                    <div class="mb-4">
+                        <label for="titre" class="form-label">
+                            <i class="bi bi-book me-1"></i>
+                            Titre du livre *
+                        </label>
+                        <input type="text"
+                               class="form-control form-control-lg"
+                               id="titre"
+                               th:field="*{titre}"
+                               th:classappend="${#fields.hasErrors('titre')} ? 'is-invalid' : ''"
+                               placeholder="Ex: Le Petit Prince">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('titre')}" th:errors="*{titre}"></div>
+                    </div>
+
+                    <!-- Auteur -->
+                    <div class="mb-4">
+                        <label for="auteur" class="form-label">
+                            <i class="bi bi-person me-1"></i>
+                            Auteur *
+                        </label>
+                        <input type="text"
+                               class="form-control form-control-lg"
+                               id="auteur"
+                               th:field="*{auteur}"
+                               th:classappend="${#fields.hasErrors('auteur')} ? 'is-invalid' : ''"
+                               placeholder="Ex: Antoine de Saint-Exupéry">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('auteur')}" th:errors="*{auteur}"></div>
+                    </div>
+
+                    <!-- Prix -->
+                    <div class="mb-4">
+                        <label for="prix" class="form-label">
+                            <i class="bi bi-tag me-1"></i>
+                            Prix (FCFA) *
+                        </label>
+                        <input type="number"
+                               step="0.01"
+                               class="form-control form-control-lg"
+                               id="prix"
+                               th:field="*{prix}"
+                               th:classappend="${#fields.hasErrors('prix')} ? 'is-invalid' : ''"
+                               placeholder="Ex: 12.50">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('prix')}" th:errors="*{prix}"></div>
+                    </div>
+
+                    <!-- Statut archivé (uniquement en modification) -->
+                    <div class="mb-4" th:if="${isEdit}">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   id="archived"
+                                   th:field="*{archived}">
+                            <label class="form-check-label" for="archived">
+                                <i class="bi bi-archive me-1"></i>
+                                Archiver ce livre
+                            </label>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <!-- Boutons d'action -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a th:href="@{/livres}" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-x-circle me-2"></i>
+                            Annuler
+                        </a>
+                        <button type="submit" class="btn btn-gradient btn-lg">
+                            <i th:class="${isEdit} ? 'bi bi-check-circle' : 'bi bi-save'" class="me-2"></i>
+                            <span th:text="${isEdit} ? 'Modifier' : 'Enregistrer'"></span>
+                        </button>
+                    </div>
+
+                    <div class="mt-3 text-muted text-center">
+                        <small>* Champs obligatoires</small>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
