@@ -37,7 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid @ModelAttribute LoginDto loginDTO,
+    public String login(@Valid @ModelAttribute("loginDTO") LoginDto loginDTO,
                         BindingResult result,
                         Model model,
                         RedirectAttributes redirectAttributes) {

@@ -13,10 +13,11 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name="livres")
+@Entity
+@Table(name = "livres")
 public class Livre {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer identifiant;
     private String titre;
     private String auteur;
@@ -24,7 +25,7 @@ public class Livre {
 
     private LocalDate createdAt;
     private boolean archived;
-    @ManyToOne()
+    @ManyToOne
     private User createdBy;
 
 

@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/livres")
 @RequiredArgsConstructor
@@ -27,12 +29,13 @@ public class LivreController {
     @GetMapping
     public String listLivres(Model model) {
         log.info("WEB: Affichage de la liste des livres");
-        model.addAttribute("livres", livreService.getActiveLivres());
+        List<LivreDto> livres = livreService.getActiveLivres();
+        model.addAttribute("livres", livres);
         model.addAttribute("authenticated", authService.isAuthenticated());
         if (authService.isAuthenticated()) {
             model.addAttribute("username", authService.getCurrentUsername());
         }
-        model.addAttribute("totalLivres", livreService.getActiveLivres());
+        model.addAttribute("totalLivres", livres.size()); // Correction: utiliser .size() au lieu de la liste
         return "livres";
     }
 

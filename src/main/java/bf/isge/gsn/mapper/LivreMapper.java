@@ -28,6 +28,7 @@ public class LivreMapper {
                 .prix(livre.getPrix())
                 .createdAt(livre.getCreatedAt())
                 .archived(livre.isArchived())
+                .createdByUsername(livre.getCreatedBy() != null ? livre.getCreatedBy().getUsername() : "Inconnu")  // AJOUT
                 .build();
     }
 

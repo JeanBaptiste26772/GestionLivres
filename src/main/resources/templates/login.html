@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:https="http://www.w3.org/1999/xhtml" lang="fr">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +7,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            width: 100%;
+            padding: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -61,7 +72,7 @@
     </style>
 </head>
 <body>
-<html class="container">
+<div class="login-container">
     <div class="login-card">
         <div class="login-header">
             <i class="bi bi-book-fill"></i>
@@ -126,136 +137,8 @@
             </div>
         </div>
     </div>
+</div>
 
-    <!DOCTYPE html>
-    <html xmlns:th="http://www.thymeleaf.org" xmlns:https="http://www.w3.org/1999/xhtml" lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Connexion - Gestion de Livres</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
-        <style>
-            body {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                min-height: 100vh;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .login-card {
-                background: white;
-                border-radius: 15px;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-                overflow: hidden;
-                max-width: 450px;
-                width: 100%;
-            }
-            .login-header {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-                padding: 40px 30px;
-                text-align: center;
-            }
-            .login-header i {
-                font-size: 60px;
-                margin-bottom: 15px;
-            }
-            .login-body {
-                padding: 40px 30px;
-            }
-            .form-control:focus {
-                border-color: #667eea;
-                box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-            }
-            .btn-login {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                border: none;
-                padding: 12px;
-                font-size: 16px;
-                font-weight: 600;
-                transition: transform 0.2s;
-            }
-            .btn-login:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-            }
-            .info-box {
-                background: #f8f9fa;
-                border-left: 4px solid #667eea;
-                padding: 15px;
-                margin-top: 20px;
-                border-radius: 5px;
-            }
-        </style>
-    </head>
-    <body>
-    <body class="container">
-        <div class="login-card">
-            <div class="login-header">
-                <i class="bi bi-book-fill"></i>
-                <h2 class="mb-0">Gestion de Livres</h2>
-                <p class="mb-0 mt-2">Connectez-vous pour continuer</p>
-            </div>
-
-            <div class="login-body">
-                <!-- Messages d'alerte -->
-                <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i>
-                    <span th:text="${success}"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-
-                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <span th:text="${error}"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-
-                <!-- Formulaire de connexion -->
-                <form th:action="@{/login}" th:object="${loginDTO}" method="post">
-                    <div class="mb-3">
-                        <label for="username" class="form-label">
-                            <i class="bi bi-person-fill"></i> Nom d'utilisateur
-                        </label>
-                        <input type="text"
-                               class="form-control form-control-lg"
-                               id="username"
-                               th:field="*{username}"
-                               th:classappend="${#fields.hasErrors('username')} ? 'is-invalid' : ''"
-                               placeholder="Entrez votre nom d'utilisateur"
-                               autofocus>
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="password" class="form-label">
-                            <i class="bi bi-lock-fill"></i> Mot de passe
-                        </label>
-                        <input type="password"
-                               class="form-control form-control-lg"
-                               id="password"
-                               th:field="*{password}"
-                               th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
-                               placeholder="Entrez votre mot de passe">
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-login w-100">
-                        <i class="bi bi-box-arrow-in-right me-2"></i>
-                        Se connecter
-                    </button>
-                </form>
-
-                <!-- Informations de test -->
-                <div class="info-box">
-                    <h6 class="mb-2"><i class="bi bi-info-circle-fill"></i> Compte de test</h6>
-                    <p class="mb-1"><strong>Utilisateur:</strong> admin</p>
-                    <p class="mb-0"><strong>Mot de passe:</strong> admin123</p>
-                </div>
-            </div>
-        </div>
-
-    </body>
-
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
